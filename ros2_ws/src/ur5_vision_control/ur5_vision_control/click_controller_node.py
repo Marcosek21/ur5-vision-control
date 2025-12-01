@@ -12,7 +12,7 @@ class ClickControllerNode(Node):
         self.bridge = CvBridge()
         self.image_sub = self.create_subscription(
             Image,
-            '/camera/image_raw',
+            '/image_raw',
             self.image_callback,
             10
         )
@@ -20,7 +20,9 @@ class ClickControllerNode(Node):
         self.cv_image = None
         self.window_name = "Click control - camera view"
 
+        # Init OpenCV window (only once)
         cv2.namedWindow(self.window_name)
+        cv2.startWindowThread()
         cv2.setMouseCallback(self.window_name, self.mouse_callback)
 
         self.get_logger().info("ClickControllerNode started.")
@@ -48,6 +50,7 @@ class ClickControllerNode(Node):
         else:
             self.get_logger().info(f"Kliknięcie w DOLNEJ połowie (y={y})")
 
+
 def main(args=None):
     rclpy.init(args=args)
     node = ClickControllerNode()
@@ -55,9 +58,12 @@ def main(args=None):
         rclpy.spin(node)
     except KeyboardInterrupt:
         pass
+
     node.destroy_node()
     cv2.destroyAllWindows()
     rclpy.shutdown()
 
+
 if __name__ == '__main__':
     main()
+
