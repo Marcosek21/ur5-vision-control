@@ -1,0 +1,22 @@
+running egg_info
+writing ../../build/ur5_vision_control/ur5_vision_control.egg-info/PKG-INFO
+writing dependency_links to ../../build/ur5_vision_control/ur5_vision_control.egg-info/dependency_links.txt
+writing entry points to ../../build/ur5_vision_control/ur5_vision_control.egg-info/entry_points.txt
+writing requirements to ../../build/ur5_vision_control/ur5_vision_control.egg-info/requires.txt
+writing top-level names to ../../build/ur5_vision_control/ur5_vision_control.egg-info/top_level.txt
+reading manifest file '../../build/ur5_vision_control/ur5_vision_control.egg-info/SOURCES.txt'
+writing manifest file '../../build/ur5_vision_control/ur5_vision_control.egg-info/SOURCES.txt'
+running build
+running build_py
+copying ur5_vision_control/click_controller_node.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/build/lib/ur5_vision_control
+copying ur5_vision_control/aruco_controller_node.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/build/lib/ur5_vision_control
+running install
+running install_lib
+copying /home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/build/lib/ur5_vision_control/click_controller_node.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control
+copying /home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/build/lib/ur5_vision_control/aruco_controller_node.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control
+byte-compiling /home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control/click_controller_node.py to click_controller_node.cpython-310.pyc
+byte-compiling /home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control/aruco_controller_node.py to aruco_controller_node.cpython-310.pyc
+running install_data
+copying package.xml -> /home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/share/ur5_vision_control
+creating /home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/share/ur5_vision_control/launch
+error: can't copy 'launch/ur5_vision_control.launch.py': doesn't exist or not a regular file

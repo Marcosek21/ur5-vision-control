@@ -1,1 +1,1 @@
-cv_bridge:rclpy:sensor_msgs:trajectory_msgs
+builtin_interfaces:cv_bridge:launch:launch_ros:rclpy:sensor_msgs:std_msgs:trajectory_msgs
