@@ -1,0 +1,4 @@
+[console_scripts]
+aruco_controller_node = ur5_vision_control.aruco_controller_node:main
+click_controller_node = ur5_vision_control.click_controller_node:main
+

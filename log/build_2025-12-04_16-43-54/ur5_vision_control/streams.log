@@ -1,0 +1,23 @@
+[0.816s] Invoking command in '/home/marco/Documents/ur5-vision-control/ros2_ws/src/ur5_vision_control': PYTHONPATH=/home/marco/Documents/ur5-vision-control/build/ur5_vision_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/marco/Documents/ur5-vision-control/install/ur5_vision_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ur5_vision_control build --build-base /home/marco/Documents/ur5-vision-control/build/ur5_vision_control/build install --record /home/marco/Documents/ur5-vision-control/build/ur5_vision_control/install.log --single-version-externally-managed install_data
+[1.107s] running egg_info
+[1.108s] writing ../../../build/ur5_vision_control/ur5_vision_control.egg-info/PKG-INFO
+[1.108s] writing dependency_links to ../../../build/ur5_vision_control/ur5_vision_control.egg-info/dependency_links.txt
+[1.108s] writing entry points to ../../../build/ur5_vision_control/ur5_vision_control.egg-info/entry_points.txt
+[1.109s] writing requirements to ../../../build/ur5_vision_control/ur5_vision_control.egg-info/requires.txt
+[1.109s] writing top-level names to ../../../build/ur5_vision_control/ur5_vision_control.egg-info/top_level.txt
+[1.111s] reading manifest file '../../../build/ur5_vision_control/ur5_vision_control.egg-info/SOURCES.txt'
+[1.112s] writing manifest file '../../../build/ur5_vision_control/ur5_vision_control.egg-info/SOURCES.txt'
+[1.113s] running build
+[1.113s] running build_py
+[1.113s] running install
+[1.113s] running install_lib
+[1.115s] running install_data
+[1.115s] copying launch/full_system.launch.py -> /home/marco/Documents/ur5-vision-control/install/ur5_vision_control/share/ur5_vision_control/launch
+[1.115s] running install_egg_info
+[1.117s] removing '/home/marco/Documents/ur5-vision-control/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control-0.0.1-py3.10.egg-info' (and everything under it)
+[1.117s] Copying ../../../build/ur5_vision_control/ur5_vision_control.egg-info to /home/marco/Documents/ur5-vision-control/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control-0.0.1-py3.10.egg-info
+[1.118s] running install_scripts
+[1.143s] Installing aruco_controller_node script to /home/marco/Documents/ur5-vision-control/install/ur5_vision_control/lib/ur5_vision_control
+[1.143s] Installing click_controller_node script to /home/marco/Documents/ur5-vision-control/install/ur5_vision_control/lib/ur5_vision_control
+[1.143s] writing list of installed files to '/home/marco/Documents/ur5-vision-control/build/ur5_vision_control/install.log'
+[1.171s] Invoked command in '/home/marco/Documents/ur5-vision-control/ros2_ws/src/ur5_vision_control' returned '0': PYTHONPATH=/home/marco/Documents/ur5-vision-control/build/ur5_vision_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/marco/Documents/ur5-vision-control/install/ur5_vision_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ur5_vision_control build --build-base /home/marco/Documents/ur5-vision-control/build/ur5_vision_control/build install --record /home/marco/Documents/ur5-vision-control/build/ur5_vision_control/install.log --single-version-externally-managed install_data
