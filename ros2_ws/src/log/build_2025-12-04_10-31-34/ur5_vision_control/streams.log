@@ -1,0 +1,43 @@
+[1.509s] Invoking command in '/home/marco/Documents/ur5-vision-control/ros2_ws/src/ur5_vision_control': PYTHONPATH=/home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/ur5_vision_control build --build-base /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/build install --record /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/install.log --single-version-externally-managed install_data
+[2.043s] running egg_info
+[2.044s] creating ../build/ur5_vision_control/ur5_vision_control.egg-info
+[2.044s] writing ../build/ur5_vision_control/ur5_vision_control.egg-info/PKG-INFO
+[2.045s] writing dependency_links to ../build/ur5_vision_control/ur5_vision_control.egg-info/dependency_links.txt
+[2.045s] writing entry points to ../build/ur5_vision_control/ur5_vision_control.egg-info/entry_points.txt
+[2.046s] writing requirements to ../build/ur5_vision_control/ur5_vision_control.egg-info/requires.txt
+[2.046s] writing top-level names to ../build/ur5_vision_control/ur5_vision_control.egg-info/top_level.txt
+[2.046s] writing manifest file '../build/ur5_vision_control/ur5_vision_control.egg-info/SOURCES.txt'
+[2.050s] reading manifest file '../build/ur5_vision_control/ur5_vision_control.egg-info/SOURCES.txt'
+[2.052s] writing manifest file '../build/ur5_vision_control/ur5_vision_control.egg-info/SOURCES.txt'
+[2.052s] running build
+[2.052s] running build_py
+[2.053s] creating /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/build
+[2.053s] creating /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/build/lib
+[2.054s] creating /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/build/lib/ur5_vision_control
+[2.055s] copying ur5_vision_control/__init__.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/build/lib/ur5_vision_control
+[2.055s] copying ur5_vision_control/click_controller_node.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/build/lib/ur5_vision_control
+[2.055s] copying ur5_vision_control/aruco_controller_node.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/build/lib/ur5_vision_control
+[2.055s] running install
+[2.056s] running install_lib
+[2.058s] creating /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control
+[2.058s] copying /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/build/lib/ur5_vision_control/__init__.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control
+[2.059s] copying /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/build/lib/ur5_vision_control/click_controller_node.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control
+[2.059s] copying /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/build/lib/ur5_vision_control/aruco_controller_node.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control
+[2.060s] byte-compiling /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control/__init__.py to __init__.cpython-310.pyc
+[2.060s] byte-compiling /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control/click_controller_node.py to click_controller_node.cpython-310.pyc
+[2.061s] byte-compiling /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control/aruco_controller_node.py to aruco_controller_node.cpython-310.pyc
+[2.062s] running install_data
+[2.063s] creating /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/share/ament_index
+[2.063s] creating /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/share/ament_index/resource_index
+[2.063s] creating /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/share/ament_index/resource_index/packages
+[2.063s] copying resource/ur5_vision_control -> /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/share/ament_index/resource_index/packages
+[2.064s] copying package.xml -> /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/share/ur5_vision_control
+[2.064s] creating /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/share/ur5_vision_control/launch
+[2.064s] copying launch/ur5_vision_control.launch.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/share/ur5_vision_control/launch
+[2.066s] running install_egg_info
+[2.069s] Copying ../build/ur5_vision_control/ur5_vision_control.egg-info to /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control-0.0.1-py3.10.egg-info
+[2.070s] running install_scripts
+[2.119s] Installing aruco_controller_node script to /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/ur5_vision_control
+[2.120s] Installing click_controller_node script to /home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/ur5_vision_control
+[2.120s] writing list of installed files to '/home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/install.log'
+[2.174s] Invoked command in '/home/marco/Documents/ur5-vision-control/ros2_ws/src/ur5_vision_control' returned '0': PYTHONPATH=/home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/marco/Documents/ur5-vision-control/ros2_ws/src/install/ur5_vision_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/ur5_vision_control build --build-base /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/build install --record /home/marco/Documents/ur5-vision-control/ros2_ws/src/build/ur5_vision_control/install.log --single-version-externally-managed install_data
