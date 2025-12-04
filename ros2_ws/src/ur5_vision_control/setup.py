@@ -10,7 +10,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/launch', ['launch/ur5_vision_control.launch.py']),
+        ('share/' + package_name + '/launch', ['launch/full_system.launch.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
