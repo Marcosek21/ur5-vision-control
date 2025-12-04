@@ -1,0 +1,25 @@
+[1.298s] Invoking command in '/home/marco/Documents/ur5-vision-control/ros2_ws/src/ur5_vision_control': PYTHONPATH=/home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/ur5_vision_control build --build-base /home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/build install --record /home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/install.log --single-version-externally-managed install_data
+[1.822s] running egg_info
+[1.823s] writing ../../build/ur5_vision_control/ur5_vision_control.egg-info/PKG-INFO
+[1.824s] writing dependency_links to ../../build/ur5_vision_control/ur5_vision_control.egg-info/dependency_links.txt
+[1.824s] writing entry points to ../../build/ur5_vision_control/ur5_vision_control.egg-info/entry_points.txt
+[1.824s] writing requirements to ../../build/ur5_vision_control/ur5_vision_control.egg-info/requires.txt
+[1.825s] writing top-level names to ../../build/ur5_vision_control/ur5_vision_control.egg-info/top_level.txt
+[1.828s] reading manifest file '../../build/ur5_vision_control/ur5_vision_control.egg-info/SOURCES.txt'
+[1.829s] writing manifest file '../../build/ur5_vision_control/ur5_vision_control.egg-info/SOURCES.txt'
+[1.830s] running build
+[1.830s] running build_py
+[1.830s] copying ur5_vision_control/click_controller_node.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/build/lib/ur5_vision_control
+[1.830s] running install
+[1.831s] running install_lib
+[1.834s] copying /home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/build/lib/ur5_vision_control/click_controller_node.py -> /home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control
+[1.835s] byte-compiling /home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control/click_controller_node.py to click_controller_node.cpython-310.pyc
+[1.837s] running install_data
+[1.837s] running install_egg_info
+[1.840s] removing '/home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control-0.0.1-py3.10.egg-info' (and everything under it)
+[1.840s] Copying ../../build/ur5_vision_control/ur5_vision_control.egg-info to /home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/python3.10/site-packages/ur5_vision_control-0.0.1-py3.10.egg-info
+[1.842s] running install_scripts
+[1.879s] Installing aruco_controller_node script to /home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/ur5_vision_control
+[1.880s] Installing click_controller_node script to /home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/ur5_vision_control
+[1.881s] writing list of installed files to '/home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/install.log'
+[1.930s] Invoked command in '/home/marco/Documents/ur5-vision-control/ros2_ws/src/ur5_vision_control' returned '0': PYTHONPATH=/home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/marco/Documents/ur5-vision-control/ros2_ws/install/ur5_vision_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/ur5_vision_control build --build-base /home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/build install --record /home/marco/Documents/ur5-vision-control/ros2_ws/build/ur5_vision_control/install.log --single-version-externally-managed install_data
