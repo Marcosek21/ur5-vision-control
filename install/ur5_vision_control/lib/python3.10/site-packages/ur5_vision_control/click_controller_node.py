@@ -15,7 +15,7 @@ class ClickControllerNode(Node):
         # Subskrypcja obrazu
         self.image_sub = self.create_subscription(
             Image,
-            '/image_raw',   # ← upewnij się, że to Twój topic!
+            '/image_raw',
             self.image_callback,
             10
         )
@@ -27,13 +27,13 @@ class ClickControllerNode(Node):
             10
         )
 
-        # Zapamiętujemy aktualny kąt osi 0
-        self.current_pan_angle = 0.0
+        # Aktualny kąt drugiego jointa (shoulder_lift_joint)
+        self.current_lift_angle = 0.0
 
         # Nazwy jointów UR5
         self.joint_names = [
             'shoulder_pan_joint',
-            'shoulder_lift_joint',
+            'shoulder_lift_joint',   # ← TERAZ STERUJEMY TYM
             'elbow_joint',
             'wrist_1_joint',
             'wrist_2_joint',
@@ -58,37 +58,38 @@ class ClickControllerNode(Node):
         h, w, _ = self.cv_image.shape
         mid_y = h // 2
 
-        # Ustal kierunek ruchu
+        # Ustal ruch drugiego jointa
         if y < mid_y:
-            self.get_logger().info("Klik GÓRA → +10°")
+            self.get_logger().info("Klik GÓRA → lift +10°")
             delta = np.deg2rad(10)
         else:
-            self.get_logger().info("Klik DÓŁ → -10°")
+            self.get_logger().info("Klik DÓŁ → lift -10°")
             delta = -np.deg2rad(10)
 
-        self.current_pan_angle += delta
-        self.send_trajectory(self.current_pan_angle)
+        self.current_lift_angle += delta
+        self.send_trajectory(self.current_lift_angle)
 
     def send_trajectory(self, angle):
         traj = JointTrajectory()
         traj.joint_names = self.joint_names
 
         point = JointTrajectoryPoint()
+
+        # Sterujemy tylko jointem 1 (shoulder_lift_joint)
         point.positions = [
-            angle,  # Sterujemy tylko pan joint
-            0.0,
+            0.0,      
+            angle,    # shoulder_lift_joint — STERUJEMY
             0.0,
             0.0,
             0.0,
             0.0
         ]
-        point.time_from_start.sec = 1
 
+        point.time_from_start.sec = 1
         traj.points.append(point)
 
-        # Publikacja do UR5
         self.traj_pub.publish(traj)
-        self.get_logger().info(f"Wysłano trajektorię: pan = {angle:.3f} rad")
+        self.get_logger().info(f"Wysłano trajektorię: lift = {angle:.3f} rad")
 
 def main(args=None):
     rclpy.init(args=args)

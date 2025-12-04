@@ -13,15 +13,15 @@ class ArucoControllerNode(Node):
 
         self.bridge = CvBridge()
 
-        # TODO: podmień topic obrazu na ten, którego używasz w click_controller_node!
+        # Subskrypcja obrazu
         self.image_sub = self.create_subscription(
             Image,
-            '/image_raw',     # ← jeśli u Ciebie jest np. /usb_cam/image_raw, zmień tutaj
+            '/image_raw',
             self.image_callback,
             10
         )
 
-        # Publisher do UR5 – ten sam co w node klikowym
+        # Publisher do UR5
         self.traj_pub = self.create_publisher(
             JointTrajectory,
             '/scaled_joint_trajectory_controller/joint_trajectory',
@@ -31,36 +31,35 @@ class ArucoControllerNode(Node):
         # Nazwy jointów UR5
         self.joint_names = [
             'shoulder_pan_joint',
-            'shoulder_lift_joint',
+            'shoulder_lift_joint',  # ← TERAZ STERUJEMY TYM
             'elbow_joint',
             'wrist_1_joint',
             'wrist_2_joint',
             'wrist_3_joint'
         ]
 
-        # Aktualny kąt pierwszego przegubu
-        self.current_pan = 0.0
+        # Aktualny kąt LIFT (joint 2)
+        self.current_lift = 0.0
 
         # OpenCV okno
         self.window_name = "ArUco control - UR5"
         cv2.namedWindow(self.window_name)
         cv2.startWindowThread()
 
-        # ArUco – słownik i parametry
+        # ArUco parametry
         self.aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
         self.aruco_params = cv2.aruco.DetectorParameters_create()
 
-        # Aby nie spamować komendami – zapamiętujemy czas ostatniej wysłanej trajektorii
+        # Anti-spam: min przerwa między komendami
         self.last_cmd_time = self.get_clock().now()
-        self.min_cmd_interval = Duration(seconds=0.5)  # min 0.5s między komendami
+        self.min_cmd_interval = Duration(seconds=0.5)
 
-        self.get_logger().info("ArucoControllerNode started.")
+        self.get_logger().info("ArucoControllerNode started (sterowanie shoulder_lift_joint).")
 
     def image_callback(self, msg):
         frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        # Detekcja markerów ArUco
         corners, ids, _ = cv2.aruco.detectMarkers(
             gray,
             self.aruco_dict,
@@ -69,32 +68,28 @@ class ArucoControllerNode(Node):
 
         h, w = frame.shape[:2]
         mid_y = h // 2
+        direction = 0
 
-        # Rysujemy linię środka dla wizualizacji
+        # Środkowa linia
         cv2.line(frame, (0, mid_y), (w, mid_y), (255, 0, 0), 2)
 
-        direction = 0  # +1 – góra, -1 – dół, 0 – brak ruchu
-
         if ids is not None and len(ids) > 0:
-            # Bierzemy pierwszy wykryty marker
-            c = corners[0][0]  # (4, 2)
+            c = corners[0][0]
             cx = int(np.mean(c[:, 0]))
             cy = int(np.mean(c[:, 1]))
 
-            # Rysujemy środek markera
             cv2.circle(frame, (cx, cy), 6, (0, 0, 255), -1)
 
-            # Deadzone – żeby nie latał co piksel
-            dead_zone = int(h * 0.05)  # 5% wysokości
+            dead_zone = int(h * 0.05)
 
             if cy < mid_y - dead_zone:
                 direction = +1
-                txt = "Marker POWYZEJ srodka → RUCH W GORE"
+                txt = "Marker POWYZEJ → LIFT +5°"
             elif cy > mid_y + dead_zone:
                 direction = -1
-                txt = "Marker PONIZEJ srodka → RUCH W DOL"
+                txt = "Marker PONIZEJ → LIFT -5°"
             else:
-                txt = "Marker w strefie martwej – brak ruchu"
+                txt = "Marker w strefie martwej"
 
             cv2.putText(frame, txt, (10, 30),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
@@ -102,26 +97,25 @@ class ArucoControllerNode(Node):
             cv2.putText(frame, "Brak markera ArUco", (10, 30),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
-        # Wyświetlenie obrazu
         cv2.imshow(self.window_name, frame)
         cv2.waitKey(1)
 
-        # Wysyłamy komendę tylko, jeśli minęło trochę czasu i jest ruch
+        # Warunek wysyłania komend
         now = self.get_clock().now()
         if direction != 0 and (now - self.last_cmd_time) > self.min_cmd_interval:
-            delta = np.deg2rad(5) * direction  # mniejszy krok niż klik – 5°
-            self.current_pan += delta
-            self.send_trajectory(self.current_pan)
+            delta = np.deg2rad(5) * direction
+            self.current_lift += delta
+            self.send_trajectory(self.current_lift)
             self.last_cmd_time = now
 
-    def send_trajectory(self, pan_angle_rad):
+    def send_trajectory(self, lift_angle_rad):
         traj = JointTrajectory()
         traj.joint_names = self.joint_names
 
         point = JointTrajectoryPoint()
         point.positions = [
-            pan_angle_rad,
-            0.0,
+            0.0,              # joint 1 PAN (nie ruszamy)
+            lift_angle_rad,   # joint 2 LIFT (sterujemy)
             0.0,
             0.0,
             0.0,
@@ -132,7 +126,9 @@ class ArucoControllerNode(Node):
         traj.points.append(point)
         self.traj_pub.publish(traj)
 
-        self.get_logger().info(f"[ArUco] UR5 → pan={pan_angle_rad:.3f} rad")
+        self.get_logger().info(
+            f"[ArUco] UR5 → shoulder_lift_joint = {lift_angle_rad:.3f} rad"
+        )
 
 
 def main(args=None):
