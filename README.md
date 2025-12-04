@@ -34,18 +34,21 @@ ur5_vision_control/
 - 🟦 **URSim (UR5)** z uruchomionym programem `External Control`
 - 🟩 sterownika `ur_robot_driver`
 - 🎥 źródła obrazu (kamera USB lub inna)
-## 1️⃣ Start URSim (UR5) 
+## 1️. Konfiguracja URSim (UR5) 
 ```bash ros2 run ur_client_library start_ursim.sh -m ur5 ```
 
 URSim działa pod adresem: ``` 192.168.56.101 ``` 
 
-Na kontrolerze robota uruchom program **External Control**. 
-## 2️⃣ Uruchomienie systemu z pliku launch 
+Na kontrolerze robota wgraj program **External Control**. 
+## 2️. Uruchomienie systemu z pliku launch 
 ### 🔹 Tryb ArUco (domyślny) 
 ```bash ros2 launch ur5_vision_control full_system.launch.py use_aruco:=true ``` 
 
 ### 🔹 Tryb kliknięć 
 ```bash ros2 launch ur5_vision_control full_system.launch.py use_aruco:=false ```
+
+## 3. Start URSim (UR5)
+Po uruchomieniu pliku .launch przejdź do panelu URSim i uruchom działanie programu robota w zakładce **RUN PROGRAM**
 # 🎮 Sposób działania 
 ## 🖱️ Sterowanie kliknięciami (`click_controller_node`) 
 - klik powyżej środka → obrót +10°,
