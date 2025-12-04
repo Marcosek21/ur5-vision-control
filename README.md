@@ -58,7 +58,16 @@ Na kontrolerze robota uruchom program **External Control**.
 w zależności od pozycji wykonuje ruch:
 - marker powyżej środka → +5°,
 - marker poniżej środka → –5°.
-# 📡 Topic sterowania robotem 
+
+### 🎬 Demonstracja działania
+
+Poniżej prezentujemy animację pokazującą sterowanie robotem UR5:
+
+<p align="center">
+  <img src="/aruco_code_working.gif" width="600">
+</p>
+
+## 📡 Topic sterowania robotem 
 ``` /scaled_joint_trajectory_controller/joint_trajectory ``` 
 
 Typ wiadomości: ``` trajectory_msgs/JointTrajectory ``` 
