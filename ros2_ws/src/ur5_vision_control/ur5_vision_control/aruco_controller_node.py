@@ -5,19 +5,18 @@ from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from cv_bridge import CvBridge
 import cv2
 import numpy as np
-
+from rclpy.duration import Duration
 
 class ArucoControllerNode(Node):
     def __init__(self):
-        super().__init__("aruco_controller_node")
+        super().__init__('aruco_controller_node')
 
         self.bridge = CvBridge()
-        self.cv_image = None
 
         # Subskrypcja obrazu
         self.image_sub = self.create_subscription(
             Image,
-            "/image_raw",
+            '/image_raw',
             self.image_callback,
             10
         )
@@ -25,82 +24,116 @@ class ArucoControllerNode(Node):
         # Publisher do UR5
         self.traj_pub = self.create_publisher(
             JointTrajectory,
-            "/scaled_joint_trajectory_controller/joint_trajectory",
+            '/scaled_joint_trajectory_controller/joint_trajectory',
             10
         )
 
-        # Sterujemy tylko tym jednym jointem
-        self.joint_name = "shoulder_lift_joint"
-        self.current_angle = 0.0
+        # Nazwy jointów UR5
+        self.joint_names = [
+            'shoulder_pan_joint',
+            'shoulder_lift_joint',  # ← TERAZ STERUJEMY TYM
+            'elbow_joint',
+            'wrist_1_joint',
+            'wrist_2_joint',
+            'wrist_3_joint'
+        ]
 
-        # ArUco — wersja API kompatybilna z ROS Humble
-        self.dictionary = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
-        self.parameters = cv2.aruco.DetectorParameters_create()
+        # Aktualny kąt LIFT (joint 2)
+        self.current_lift = 0.0
 
-        # Timer wykonywany co 0.5 s
-        self.timer = self.create_timer(0.5, self.control_loop)
+        # OpenCV okno
+        self.window_name = "ArUco control - UR5"
+        cv2.namedWindow(self.window_name)
+        cv2.startWindowThread()
 
-        self.get_logger().info("ArucoControllerNode started — sterowanie shoulder_lift_joint")
+        # ArUco parametry
+        self.aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
+        self.aruco_params = cv2.aruco.DetectorParameters_create()
 
+        # Anti-spam: min przerwa między komendami
+        self.last_cmd_time = self.get_clock().now()
+        self.min_cmd_interval = Duration(seconds=0.5)
+
+        self.get_logger().info("ArucoControllerNode started (sterowanie shoulder_lift_joint).")
 
     def image_callback(self, msg):
-        self.cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
+        frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-
-    def control_loop(self):
-        if self.cv_image is None:
-            return
-
-        gray = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2GRAY)
-
-        # Wersja dla OpenCV 4.2–4.5
         corners, ids, _ = cv2.aruco.detectMarkers(
             gray,
-            self.dictionary,
-            parameters=self.parameters
+            self.aruco_dict,
+            parameters=self.aruco_params
         )
 
-        h, w, _ = self.cv_image.shape
+        h, w = frame.shape[:2]
         mid_y = h // 2
+        direction = 0
 
-        if ids is not None:
+        # Środkowa linia
+        cv2.line(frame, (0, mid_y), (w, mid_y), (255, 0, 0), 2)
+
+        if ids is not None and len(ids) > 0:
             c = corners[0][0]
-            center_y = int((c[0][1] + c[2][1]) / 2)
+            cx = int(np.mean(c[:, 0]))
+            cy = int(np.mean(c[:, 1]))
 
-            if center_y < mid_y:
-                delta = np.deg2rad(5)
-                self.get_logger().info("Aruco NAD środkiem → +5°")
+            cv2.circle(frame, (cx, cy), 6, (0, 0, 255), -1)
+
+            dead_zone = int(h * 0.05)
+
+            if cy < mid_y - dead_zone:
+                direction = +1
+                txt = "Marker POWYZEJ → LIFT +5°"
+            elif cy > mid_y + dead_zone:
+                direction = -1
+                txt = "Marker PONIZEJ → LIFT -5°"
             else:
-                delta = -np.deg2rad(5)
-                self.get_logger().info("Aruco POD środkiem → -5°")
+                txt = "Marker w strefie martwej"
 
-            self.current_angle += delta
-            self.send_trajectory(self.current_angle)
+            cv2.putText(frame, txt, (10, 30),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        else:
+            cv2.putText(frame, "Brak markera ArUco", (10, 30),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
-            cv2.aruco.drawDetectedMarkers(self.cv_image, corners, ids)
-
-        cv2.imshow("Aruco control - camera view", self.cv_image)
+        cv2.imshow(self.window_name, frame)
         cv2.waitKey(1)
 
+        # Warunek wysyłania komend
+        now = self.get_clock().now()
+        if direction != 0 and (now - self.last_cmd_time) > self.min_cmd_interval:
+            delta = np.deg2rad(5) * direction
+            self.current_lift += delta
+            self.send_trajectory(self.current_lift)
+            self.last_cmd_time = now
 
-    def send_trajectory(self, angle):
+    def send_trajectory(self, lift_angle_rad):
         traj = JointTrajectory()
-        traj.joint_names = [self.joint_name]
+        traj.joint_names = self.joint_names
 
         point = JointTrajectoryPoint()
-        point.positions = [angle]
+        point.positions = [
+            0.0,              # joint 1 PAN (nie ruszamy)
+            lift_angle_rad,   # joint 2 LIFT (sterujemy)
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ]
         point.time_from_start.sec = 1
 
         traj.points.append(point)
-
         self.traj_pub.publish(traj)
-        self.get_logger().info(f"[UR5] shoulder_lift_joint → {angle:.3f} rad")
+
+        self.get_logger().info(
+            f"[ArUco] UR5 → shoulder_lift_joint = {lift_angle_rad:.3f} rad"
+        )
 
 
 def main(args=None):
     rclpy.init(args=args)
     node = ArucoControllerNode()
-
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
@@ -111,5 +144,5 @@ def main(args=None):
     rclpy.shutdown()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
