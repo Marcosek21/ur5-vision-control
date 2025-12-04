@@ -14,15 +14,16 @@ Projekt realizowany w ramach laboratorium z systemów robotycznych. Celem projek
 - Sterowanie markerem ArUco.
 
 ## 📦 Struktura projektu 
-``` ur5_vision_control/ 
+```
+ur5_vision_control/ 
 ├── ur5_vision_control/ 
-├── click_controller_node.py
-├── aruco_controller_node.py
- └── __init__.py
- ├── launch/
-  └── full_system.launch.py
- ├── package.xml
-  └── setup.py
+|    ├── click_controller_node.py
+|    ├── aruco_controller_node.py
+|    └── __init__.py
+├── launch/
+|    └── full_system.launch.py
+├── package.xml
+└── setup.py
 ```
 # 🛠️ Instalacja 
 ### 1. Klonowanie repozytorium 
