@@ -11,9 +11,8 @@ class ClickControllerNode(Node):
         super().__init__('click_controller_node')
 
         self.bridge = CvBridge()
-        self.cv_image = None
 
-        # Subskrypcja kamery
+        # Subskrypcja obrazu
         self.image_sub = self.create_subscription(
             Image,
             '/image_raw',
@@ -21,24 +20,31 @@ class ClickControllerNode(Node):
             10
         )
 
-        # Publisher trajektorii
+        # Publisher do UR5
         self.traj_pub = self.create_publisher(
             JointTrajectory,
             '/scaled_joint_trajectory_controller/joint_trajectory',
             10
         )
 
-        # Drugi joint UR5
-        self.joint_name = 'shoulder_lift_joint'
-        self.current_angle = 0.0
+        # Aktualny kąt drugiego jointa (shoulder_lift_joint)
+        self.current_lift_angle = 0.0
+
+        # Nazwy jointów UR5
+        self.joint_names = [
+            'shoulder_pan_joint',
+            'shoulder_lift_joint',   # ← TERAZ STERUJEMY TYM
+            'elbow_joint',
+            'wrist_1_joint',
+            'wrist_2_joint',
+            'wrist_3_joint'
+        ]
 
         # Okno OpenCV
-        self.window_name = "Click Control - UR5"
+        self.window_name = "Click control - camera view"
         cv2.namedWindow(self.window_name)
         cv2.startWindowThread()
         cv2.setMouseCallback(self.window_name, self.mouse_callback)
-
-        self.get_logger().info("ClickControllerNode started — sterowanie 2. jointem (shoulder_lift_joint)")
 
     def image_callback(self, msg):
         self.cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
@@ -52,29 +58,38 @@ class ClickControllerNode(Node):
         h, w, _ = self.cv_image.shape
         mid_y = h // 2
 
-        # Logika kliknięcia
+        # Ustal ruch drugiego jointa
         if y < mid_y:
-            self.get_logger().info("Klik GÓRA → ruch +10°")
+            self.get_logger().info("Klik GÓRA → lift +10°")
             delta = np.deg2rad(10)
         else:
-            self.get_logger().info("Klik DÓŁ → ruch -10°")
+            self.get_logger().info("Klik DÓŁ → lift -10°")
             delta = -np.deg2rad(10)
 
-        self.current_angle += delta
-        self.send_trajectory(self.current_angle)
+        self.current_lift_angle += delta
+        self.send_trajectory(self.current_lift_angle)
 
     def send_trajectory(self, angle):
         traj = JointTrajectory()
-        traj.joint_names = [self.joint_name]
+        traj.joint_names = self.joint_names
 
         point = JointTrajectoryPoint()
-        point.positions = [angle]
-        point.time_from_start.sec = 1
 
+        # Sterujemy tylko jointem 1 (shoulder_lift_joint)
+        point.positions = [
+            0.0,      
+            angle,    # shoulder_lift_joint — STERUJEMY
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ]
+
+        point.time_from_start.sec = 1
         traj.points.append(point)
 
         self.traj_pub.publish(traj)
-        self.get_logger().info(f"[UR5] shoulder_lift_joint → {angle:.3f} rad")
+        self.get_logger().info(f"Wysłano trajektorię: lift = {angle:.3f} rad")
 
 def main(args=None):
     rclpy.init(args=args)
